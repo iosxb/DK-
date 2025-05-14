@@ -1,12 +1,3 @@
-# 插件：显示编译成功，显示的信息
-PACKAGE_IDENTIFIER = com.dkjone.dkhelper
-PACKAGE_NAME = dkhelper
-PACKAGE_VERSION = 1.1.0
-PACKAGE_ARCHITECTURE = iphoneos-arm64 iphoneos-arm64e
-PACKAGE_REVISION = 1
-PACKAGE_SECTION = Tweaks
-PACKAGE_DEPENDS = firmware (>= 14.0), mobilesubstrate
-PACKAGE_DESCRIPTION = dkhelper
 
 # 直接输出到根路径
 export THEOS_PACKAGE_DIR = $(CURDIR)
