@@ -17,6 +17,8 @@ $(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc
 $(TWEAK_NAME)_FRAMEWORKS = UIKit AVFoundation CoreLocation
 
+$(TWEAK_NAME)_CXXFLAGS += -x objective-c++ -fobjc-arc
+
 # 修正：变量名应为 _INCLUDE_PATHS 而不是 _INCLUDES_PATHS
 $(TWEAK_NAME)_INCLUDE_PATHS += $(PROJECT_DIR)/DK
 
