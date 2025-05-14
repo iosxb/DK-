@@ -1,5 +1,5 @@
 /*
- * a1a2-selectortramps-arm.s
+ * a1a2-selectortramps-arm64.s
  * OCMethodTrace
  *
  * https://github.com/omxcodec/OCMethodTrace.git
@@ -19,12 +19,9 @@
  * limitations under the License.
  */
 
-#if __arm__
-	
-#include <arm/arch.h>
-#include <mach/vm_param.h>
+#if __arm64__
 
-.syntax unified
+#include <mach/vm_param.h>
 
 .text
 
@@ -32,37 +29,29 @@
 	.private_extern __a1a2_firstSelectorTramp
 	.private_extern __a1a2_selectorTrampEnd
 
-// Trampoline machinery assumes the trampolines are Thumb function pointers
-#if !__thumb2__
-#   error sorry
-#endif
-
-.thumb
-.thumb_func __a1a2_selectorTrampHead
-.thumb_func __a1a2_firstSelectorTramp
-.thumb_func __a1a2_selectorTrampEnd
+msgSend:
+    .quad 0
 
 .align PAGE_MAX_SHIFT
 __a1a2_selectorTrampHead:
-	// Trampoline's data is one page before the trampoline text.
-	// Also correct PC bias of 4 bytes.
+L_a1a2_selectorTrampHead:
     // 1. selector
-	sub  r12, #PAGE_MAX_SIZE
-	ldr  r1, [r12, #-4]     // selector -> _cmd
+	ldr  x1, [x17]      // selector -> _cmd
     // 2. msgSend
-    mov  r12, pc
-    sub  r12, #PAGE_MAX_SIZE
-    ldr  pc, [r12, #-12]    // tail call msgSend
-	// not reached
-    nop
+    adr  x17, L_a1a2_selectorTrampHead
+    sub  x17, x17, #PAGE_MAX_SIZE
+    ldr  x16, [x17]
+    br   x16            // tail call msgSend
 
-	// Align trampolines to 8 bytes
-.align 3
+	// pad up to TrampolineSelectorPagePair header size
+	nop
+	nop
+	nop
 	
 .macro TrampolineEntry
-	mov r12, pc
-	b __a1a2_selectorTrampHead
-.align 3
+	// load address of trampoline data (one page before this instruction)
+	adr  x17, -PAGE_MAX_SIZE
+	b    L_a1a2_selectorTrampHead
 .endmacro
 
 .macro TrampolineEntryX16
@@ -108,10 +97,11 @@ __a1a2_selectorTrampHead:
 	TrampolineEntryX16
 	TrampolineEntryX16
 .endmacro
-
+	
+.align 3
 .private_extern __a1a2_firstSelectorTramp
 __a1a2_firstSelectorTramp:
-	// 2048-3 trampolines to fill 16K page
+	// 2048-4 trampolines to fill 16K page
 	TrampolineEntryX256
 	TrampolineEntryX256
 	TrampolineEntryX256
@@ -155,11 +145,11 @@ __a1a2_firstSelectorTramp:
 	TrampolineEntry
 	TrampolineEntry
 
-	TrampolineEntry
 	// TrampolineEntry
 	// TrampolineEntry
 	// TrampolineEntry
-
+	// TrampolineEntry
+	
 .private_extern __a1a2_selectorTrampEnd
 __a1a2_selectorTrampEnd:
 

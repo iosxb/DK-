@@ -1,5 +1,5 @@
 /*
- * a1a2-selectortramps-arm.s
+ * a2a3-selectortramps-arm.s
  * OCMethodTrace
  *
  * https://github.com/omxcodec/OCMethodTrace.git
@@ -28,9 +28,9 @@
 
 .text
 
-	.private_extern __a1a2_selectorTrampHead
-	.private_extern __a1a2_firstSelectorTramp
-	.private_extern __a1a2_selectorTrampEnd
+	.private_extern __a2a3_selectorTrampHead
+	.private_extern __a2a3_firstSelectorTramp
+	.private_extern __a2a3_selectorTrampEnd
 
 // Trampoline machinery assumes the trampolines are Thumb function pointers
 #if !__thumb2__
@@ -38,22 +38,22 @@
 #endif
 
 .thumb
-.thumb_func __a1a2_selectorTrampHead
-.thumb_func __a1a2_firstSelectorTramp
-.thumb_func __a1a2_selectorTrampEnd
+.thumb_func __a2a3_selectorTrampHead
+.thumb_func __a2a3_firstSelectorTramp
+.thumb_func __a2a3_selectorTrampEnd
 
 .align PAGE_MAX_SHIFT
-__a1a2_selectorTrampHead:
-	// Trampoline's data is one page before the trampoline text.
-	// Also correct PC bias of 4 bytes.
+__a2a3_selectorTrampHead:
+    // Trampoline's data is one page before the trampoline text.
+    // Also correct PC bias of 4 bytes.
     // 1. selector
-	sub  r12, #PAGE_MAX_SIZE
-	ldr  r1, [r12, #-4]     // selector -> _cmd
-    // 2. msgSend
+    sub  r12, #PAGE_MAX_SIZE
+    ldr  r2, [r12, #-4]          // _cmd = selector
+    // 2. msgSend. Can't "ldr  r12, msgSend", error: out of range pc-relative fixup value
     mov  r12, pc
     sub  r12, #PAGE_MAX_SIZE
-    ldr  pc, [r12, #-12]    // tail call msgSend
-	// not reached
+    ldr  pc, [r12, #-12]
+    // not reached
     nop
 
 	// Align trampolines to 8 bytes
@@ -61,7 +61,7 @@ __a1a2_selectorTrampHead:
 	
 .macro TrampolineEntry
 	mov r12, pc
-	b __a1a2_selectorTrampHead
+	b __a2a3_selectorTrampHead
 .align 3
 .endmacro
 
@@ -109,9 +109,9 @@ __a1a2_selectorTrampHead:
 	TrampolineEntryX16
 .endmacro
 
-.private_extern __a1a2_firstSelectorTramp
-__a1a2_firstSelectorTramp:
-	// 2048-3 trampolines to fill 16K page
+.private_extern __a2a3_firstSelectorTramp
+__a2a3_firstSelectorTramp:
+	// 2048-2 trampolines to fill 16K page
 	TrampolineEntryX256
 	TrampolineEntryX256
 	TrampolineEntryX256
@@ -160,7 +160,7 @@ __a1a2_firstSelectorTramp:
 	// TrampolineEntry
 	// TrampolineEntry
 
-.private_extern __a1a2_selectorTrampEnd
-__a1a2_selectorTrampEnd:
+.private_extern __a2a3_selectorTrampEnd
+__a2a3_selectorTrampEnd:
 
 #endif
