@@ -9,6 +9,7 @@
 //                    ╚═════╝ ╚═╝  ╚═╝ ╚════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 //
 // 更新微信版本删除dkhelper/info.plist 重新运行版本号就会更新
+#import <substrate.h>
 #import <UIKit/UIKit.h>
 #import "DKHelper.h"
 #import "DKHelperSettingController.h"
