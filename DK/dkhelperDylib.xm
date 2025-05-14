@@ -12,7 +12,6 @@
 #import <UIKit/UIKit.h>
 #import "DKHelper.h"
 #import "DKHelperSettingController.h"
-#import <substrate.h>
 
 %hook MMServiceCenter
 %new
@@ -39,7 +38,7 @@
 %hook NewSettingViewController
 - (void)reloadTableData{
     %orig;
-    WCTableViewManager *tableViewMgr = (WCTableViewManager *)MSHookIvar(self, "m_tableViewMgr");
+    WCTableViewManager *tableViewMgr = MSHookIvar<id>(self, "m_tableViewMgr");
     MMTableView *tableView = [tableViewMgr getTableView];
     WCTableViewNormalCellManager *newCell = [%c(WCTableViewNormalCellManager) normalCellForSel:@selector(setting) target:self title:@"微信小助手"];
     [((WCTableViewSectionManager*)tableViewMgr.sections[0]) addCell: newCell];
@@ -452,8 +451,7 @@
     static char m_lineView2Key;
     UIImageView * imageView = objc_getAssociatedObject(self, &m_lineView2Key);
     if (!imageView) {
-        UIImageView *origLine = (UIImageView *)MSHookIvar(self, "m_lineView");
-imageView = [[UIImageView alloc] initWithImage:origLine.image];
+        imageView = [[UIImageView alloc] initWithImage:MSHookIvar<UIImageView *>(self, "m_lineView").image];
         [self.m_likeBtn.superview addSubview: imageView];
         objc_setAssociatedObject(self, &m_lineView2Key, imageView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
