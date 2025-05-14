@@ -23,8 +23,13 @@ TARGET = iphone:clang:latest:14.0
 # 源文件
 $(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
 
-# 框架依赖
-$(TWEAK_NAME)_FILES_FRAMEWORKS = UIKit Foundation LocalAuthentication
+$(TWEAK_NAME)_CFLAGS = -fobjc-arc
+$(TWEAK_NAME)_FRAMEWORKS = UIKit AVFoundation CoreLocation
+
+$(TWEAK_NAME)_INCLUDES_PATHS += $(PROJECT_DIR)/DK
+
+$(TWEAK_NAME)_CFLAGS += -w -Werror -Wno-error -Wno-deprecated-declarations -Wno-unused-but-set-variable -Who-incompatible-pointer-types -Wno-missing-braces
+ADDITIONAL_CFLAGS = -w
 
 # 包含 Theos make 系统
 include $(THEOS)/makefiles/common.mk
