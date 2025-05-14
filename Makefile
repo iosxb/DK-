@@ -36,11 +36,3 @@ $(TWEAK_NAME)_FILES_FRAMEWORKS = UIKit Foundation LocalAuthentication
 # 包含 Theos make 系统
 include $(THEOS)/makefiles/common.mk
 include $(THEOS_MAKE_PATH)/tweak.mk
-
-clean::
-        @echo -e "\033[31m==>\033[0m 正在清理......"        # ← Tab 缩进
-        @rm -rf .theos packages                           # ← Tab 缩进
-
-after-package::
-        @echo -e "\033[32m==>\033[0m 编译完成！生成deb包：$$(ls -t packages/*.deb | head -1)"  # ← Tab 缩进
-        @echo -e "\033[32m==>\033[0m 请运行 ./install.sh 将插件安装到设备"                     # ← Tab 缩进
