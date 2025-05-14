@@ -1,37 +1,38 @@
-#
-#  dkhelper
-#
-#  Copyright (c) 2024 huami. All rights reserved.
-#  Channel: @dkhelper
-#  Created on: 2024/10/04
-#
-TARGET = iphone:clang:latest:14.0
-ARCHS = arm64
-
+export DEBUG=0
+export FINALPACKAGE=1
 #export THEOS=/Users/huami/theos
-#export THEOS_PACKAGE_SCHEME=roothide
 
-ifeq ($(SCHEME),roothide)
-    export THEOS_PACKAGE_SCHEME = roothide
-else ifeq ($(SCHEME),rootless)
-    export THEOS_PACKAGE_SCHEME = rootless
-endif
+# make clean && make package SCHEME=rootless （原第5行，注释符号错误）
 
-export DEBUG = 0
-INSTALL_TARGET_PROCESSES = Aweme
-
-include $(THEOS)/makefiles/common.mk
-
+# 项目名称
 TWEAK_NAME = dkhelper
 
-$(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
-$(TWEAK_NAME)_CFLAGS = -fobjc-arc -w
-CXXFLAGS += -std=c++11
-CCFLAGS += -std=c++11
-$(TWEAK_NAME)_LOGOS_DEFAULT_GENERATOR = internal
-$(TWEAK_NAME)_INCLUDES_PATHS += $(PROJECT_DIR)/DK
-export THEOS_STRICT_LOGOS=0
-export ERROR_ON_WARNINGS=0
-export LOGOS_DEFAULT_GENERATOR=internal
+# 根据 SCHEME 变量的值设置 Theos 包的方案和安装路径。
+ifeq ($(SCHEME),roothide)
+export THEOS_PACKAGE_SCHEME = roothide
+else ifeq ($(SCHEME),rootless)
+export THEOS_PACKAGE_SCHEME = rootless
+else ifeq ($(SCHEME),rootful)
+export THEOS_PACKAGE_SCHEME = rootful
+endif
 
+# 目标设备最低版本
+export ARCHS = arm64 arm64e
+TARGET = iphone:clang:latest:15.0
+
+# 源文件
+$(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) \
+                     $(wildcard DK/*.m) 
+
+# 编译标志
+$(TWEAK_NAME)_CFLAGS = -fobjc-arc \
+                       -I$(THEOS_PROJECT_DIR)/DK \
+                       -I$(THEOS_PROJECT_DIR)/DK \
+                       -Wno-error \
+
+# 框架依赖
+$(TWEAK_NAME)_FRAMEWORKS = UIKit Foundation LocalAuthentication
+
+# 包含 Theos make 系统
+include $(THEOS)/makefiles/common.mk
 include $(THEOS_MAKE_PATH)/tweak.mk
