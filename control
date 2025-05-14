@@ -1,9 +1,16 @@
-Package: com.example.bubblefish-wchat
-Name: Bubblefishwchat
-Depends: mobilesubstrate
-Version: 2.0.0
+Package: com.dkjone.wecahtHelper
+Name: dkWechatHelper
+Version: 1.1.0
+Description: 不止于抢红包，功能丰富的微信插件
+Section: System
+Depends: firmware (>= 5.0), mobilesubstrate
+Conflicts:
+Replaces:
+Priority: optional
 Architecture: iphoneos-arm
-Description: 泡泡鱼红包助手
-Maintainer: 泡泡鱼
-Author: 泡泡鱼
-Section: Tweaks
+Author: DKJone
+dev:
+Homepage: https://github.com/DKJone/DKWechatHelper
+Depiction: 不止于抢红包，功能丰富的微信插件(适配8.0.38)
+Maintainer:
+Icon:
