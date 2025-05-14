@@ -5,7 +5,7 @@ export FINALPACKAGE=1
 # make clean && make package SCHEME=rootless （原第5行，注释符号错误）
 
 # 项目名称
-TWEAK_NAME = Bubblefishwchat
+TWEAK_NAME = dkhelper
 
 # 根据 SCHEME 变量的值设置 Theos 包的方案和安装路径。
 ifeq ($(SCHEME),roothide)
