@@ -21,14 +21,7 @@ export ARCHS = arm64 arm64e
 TARGET = iphone:clang:latest:14.0
 
 # 源文件
-$(TWEAK_NAME)_FILES_FILES = $(wildcard DK/*.xm) \
-                     $(wildcard DK/*.m) 
-
-# 编译标志
-$(TWEAK_NAME)_FILES_CFLAGS = -fobjc-arc \
-                       -I$(THEOS_PROJECT_DIR)/DK \
-                       -I$(THEOS_PROJECT_DIR)/DK \
-                       -Wno-error \
+$(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
 
 # 框架依赖
 $(TWEAK_NAME)_FILES_FRAMEWORKS = UIKit Foundation LocalAuthentication
