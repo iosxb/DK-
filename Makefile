@@ -24,7 +24,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = dkhelper
 
-DYYY_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
+$(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc -w
 CXXFLAGS += -std=c++11
 CCFLAGS += -std=c++11
