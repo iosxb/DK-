@@ -2,37 +2,24 @@ export DEBUG=0
 export FINALPACKAGE=1
 #export THEOS=/Users/huami/theos
 
-# make clean && make package SCHEME=rootless （原第5行，注释符号错误）
-
-# 项目名称
-TWEAK_NAME = dkhelper
-
-# 根据 SCHEME 变量的值设置 Theos 包的方案和安装路径。
-ifeq ($(SCHEME),roothide)
-export THEOS_PACKAGE_SCHEME = roothide
-else ifeq ($(SCHEME),rootless)
-export THEOS_PACKAGE_SCHEME = rootless
-else ifeq ($(SCHEME),rootful)
-export THEOS_PACKAGE_SCHEME = rootful
-endif
-
 # 目标设备最低版本
 export ARCHS = arm64 arm64e
-TARGET = iphone:clang:latest:15.0
+TARGET = iphone:clang:latest:14.0
 
-# 源文件
-$(TWEAK_NAME)_FILES_FILES = $(wildcard DK/*.xm) \
-                     $(wildcard DK/*.m) 
+INSTALL_TARGET_PROCESSES = SpringBoard
 
-# 编译标志
-$(TWEAK_NAME)_FILES_CFLAGS = -fobjc-arc \
-                       -I$(THEOS_PROJECT_DIR)/DK \
-                       -I$(THEOS_PROJECT_DIR)/DK \
-                       -Wno-error \
-
-# 框架依赖
-$(TWEAK_NAME)_FILES_FRAMEWORKS = UIKit Foundation LocalAuthentication
-
-# 包含 Theos make 系统
 include $(THEOS)/makefiles/common.mk
+
+TWEAK_NAME = dkhelper
+
+$(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
+
+$(TWEAK_NAME)_CFLAGS = -fobjc-arc
+$(TWEAK_NAME)_FRAMEWORKS = UIKit AVFoundation CoreLocation
+
+$(TWEAK_NAME)_INCLUDES_PATHS += $(PROJECT_DIR)/DK
+
+$(TWEAK_NAME)_CFLAGS += -w -Werror -Wno-error -Wno-deprecated-declarations -Wno-unused-but-set-variable -Who-incompatible-pointer-types -Wno-missing-braces
+ADDITIONAL_CFLAGS = -w
+
 include $(THEOS_MAKE_PATH)/tweak.mk
