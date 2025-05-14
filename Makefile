@@ -9,7 +9,7 @@ THEOS_PACKAGE_SCHEME = rootless
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = dkhelper
-$(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m) $(wildcard DK/*.mm)
+$(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc
 $(TWEAK_NAME)_CXXFLAGS += -fobjc-arc   # 可选
 $(TWEAK_NAME)_FRAMEWORKS = UIKit AVFoundation CoreLocation
