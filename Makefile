@@ -1,3 +1,10 @@
+#
+#  dkhelper
+#
+#  Copyright (c) 2024 huami. All rights reserved.
+#  Channel: @dkhelper
+#  Created on: 2024/10/04
+#
 TARGET = iphone:clang:latest:15.0
 ARCHS = arm64
 
@@ -17,8 +24,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = dkhelper
 
-$(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
-
+DYYY_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc -w
 CXXFLAGS += -std=c++11
 CCFLAGS += -std=c++11
