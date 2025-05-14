@@ -1,0 +1,9 @@
+Package: com.example.bubblefish-wchat
+Name: Bubblefishwchat
+Depends: mobilesubstrate
+Version: 2.0.0
+Architecture: iphoneos-arm
+Description: 泡泡鱼红包助手
+Maintainer: 泡泡鱼
+Author: 泡泡鱼
+Section: Tweaks
