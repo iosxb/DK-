@@ -8,24 +8,6 @@ PACKAGE_SECTION = Tweaks
 PACKAGE_DEPENDS = firmware (>= 14.0), mobilesubstrate
 PACKAGE_DESCRIPTION = dkhelper
 
-# 插件：编译时，引用的信息
-Package: com.dkjone.dkhelper
-Name: dkhelper
-Version: 1.1.0
-Description: 不止于抢红包，功能丰富的微信插件
-Section: System
-Depends: firmware (>= 5.0), mobilesubstrate
-Conflicts:
-Replaces:
-Priority: optional
-Architecture: iphoneos-arm
-Author: DKJone
-dev:
-Homepage: https://github.com/DKJone/DKWechatHelper
-Depiction: 不止于抢红包，功能丰富的微信插件(适配8.0.38)
-Maintainer:
-Icon:
-
 # 直接输出到根路径
 export THEOS_PACKAGE_DIR = $(CURDIR)
 
