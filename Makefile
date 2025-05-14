@@ -1,33 +1,37 @@
+#
+#  dkhelper
+#
+#  Copyright (c) 2024 huami. All rights reserved.
+#  Channel: @dkhelper
+#  Created on: 2024/10/04
+#
+TARGET = iphone:clang:latest:14.0
+ARCHS = arm64
 
-# 直接输出到根路径
-export THEOS_PACKAGE_DIR = $(CURDIR)
+#export THEOS=/Users/huami/theos
+#export THEOS_PACKAGE_SCHEME=roothide
 
-# TARGET
-ARCHS = arm64 arm64e
-TARGET = iphone:clang:latest:15.0
+ifeq ($(SCHEME),roothide)
+    export THEOS_PACKAGE_SCHEME = roothide
+else ifeq ($(SCHEME),rootless)
+    export THEOS_PACKAGE_SCHEME = rootless
+endif
 
-# Rootless 插件配置
-export THEOS_PACKAGE_SCHEME = rootless
-THEOS_PACKAGE_INSTALL_PREFIX = /var/jb
-
-# 目标进程
+export DEBUG = 0
 INSTALL_TARGET_PROCESSES = Aweme
 
-# 引入 Theos 的通用设置
 include $(THEOS)/makefiles/common.mk
 
-# 插件名称
 TWEAK_NAME = dkhelper
 
-# 源代码文件
-$(TWEAK_NAME)_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
+DYYY_FILES = $(wildcard DK/*.xm) $(wildcard DK/*.m)
+$(TWEAK_NAME)_CFLAGS = -fobjc-arc -w
+CXXFLAGS += -std=c++11
+CCFLAGS += -std=c++11
+$(TWEAK_NAME)_LOGOS_DEFAULT_GENERATOR = internal
 
-# 编译选项
-$(TWEAK_NAME)_CFLAGS = -fobjc-arc -Wno-error
-$(TWEAK_NAME)_MMFLAGS = -fobjc-arc -Wno-error -std=c++11
+export THEOS_STRICT_LOGOS=0
+export ERROR_ON_WARNINGS=0
+export LOGOS_DEFAULT_GENERATOR=internal
 
-# 框架
-$(TWEAK_NAME)_FRAMEWORKS = UIKit Foundation AVFoundation Photos AVKit
-
-# Theos 编译规则
 include $(THEOS_MAKE_PATH)/tweak.mk
